@@ -113,9 +113,6 @@ ro.lmk.upgrade_pressure=40
 ro.lmk.downgrade_pressure=60
 ro.lmk.kill_heaviest_task=false
 
-# Perf
-ro.vendor.extension_library=libqti-perfd-client.so
-
 # Play store
 ro.com.google.clientidbase.am=android-motorola
 ro.com.google.clientidbase.gmm=android-motorola
