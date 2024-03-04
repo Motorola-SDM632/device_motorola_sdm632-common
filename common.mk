@@ -132,6 +132,10 @@ PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey \
     android.hardware.drm@1.3.vendor
 
+# Enable retrofit dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.1.vendor
@@ -192,9 +196,7 @@ PRODUCT_PACKAGES += \
 
 # Init
 PRODUCT_PACKAGES += \
-    fstab.qcom
-
-PRODUCT_PACKAGES += \
+    check_dynamic_partitions \
     init.class_main.sh \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \
@@ -210,6 +212,10 @@ PRODUCT_PACKAGES += \
     init.qcom.rc \
     init.target.rc \
     ueventd.qcom.rc
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/rdp_fstab.qcom:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/etc/rdp_fstab.qcom:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
 
 # IPACM
 PRODUCT_PACKAGES += \
