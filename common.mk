@@ -276,6 +276,10 @@ PRODUCT_PACKAGES += \
     android.hardware.radio.config@1.2.vendor \
     android.hardware.radio.deprecated@1.0.vendor
 
+# RemovePackages 
+PRODUCT_PACKAGES += \
+    RemovePackages
+
 # Sensors
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
