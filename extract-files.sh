@@ -90,10 +90,6 @@ function blob_fixup() {
         vendor/bin/pm-service)
             grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
             ;;
-        # Move to vendor
-        vendor/etc/permissions/com.motorola.motosignature.xml)
-            sed -i 's|/system/framework|/vendor/framework|' "${2}"
-            ;;
         # Fix missing symbols
         vendor/lib/libmot_gpu_mapper.so)
             for LIBGUI_SHIM in $(grep -L "libgui_shim_vendor.so" "${2}"); do
