@@ -257,7 +257,8 @@ PRODUCT_PACKAGES += \
 TARGET_COMMON_QTI_COMPONENTS += \
     av \
     gps \
-    perf	
+    perf \
+    vibrator
 
 # Radio
 PRODUCT_PACKAGES += \
@@ -329,11 +330,6 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.sh
 
 PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/usb/etc
-
-# Vibrator
-PRODUCT_PACKAGES += \
-    android.hardware.vibrator@1.0-impl \
-    android.hardware.vibrator@1.0-service
 
 # VNDK
 # Update this list with what each blob is actually for
