@@ -78,10 +78,26 @@ function blob_fixup() {
             sed -i 's/xml version="2.0"/xml version="1.0"/' "${2}"
             sed -i "s/\/product\/framework\//\/system_ext\/framework\//g" "${2}"
             ;;
+        # Fix missing symbols
+        system_ext/lib64/lib-imscamera.so | system_ext/lib64/lib-imsvideocodec.so | system_ext/lib/lib-imscamera.so | system_ext/lib/lib-imsvideocodec.so)
+            for LIBGUI_SHIM in $(grep -L "libgui_shim.so" "${2}"); do
+                "${PATCHELF}" --add-needed "libgui_shim.so" "${LIBGUI_SHIM}"
+            done
+            ;;
         # memset shim
         vendor/bin/charge_only_mode)
             for  LIBMEMSET_SHIM in $(grep -L "libmemset_shim.so" "${2}"); do
                 "${PATCHELF}" --add-needed "libmemset_shim.so" "$LIBMEMSET_SHIM"
+            done
+            ;;
+        # Fix missing symbols
+        vendor/bin/pm-service)
+            grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
+            ;;
+        # Fix missing symbols
+        vendor/lib/libmot_gpu_mapper.so)
+            for LIBGUI_SHIM in $(grep -L "libgui_shim_vendor.so" "${2}"); do
+                "${PATCHELF}" --add-needed "libgui_shim_vendor.so" "${LIBGUI_SHIM}"
             done
             ;;
         # qsap shim
@@ -90,22 +106,9 @@ function blob_fixup() {
                 "${PATCHELF}" --add-needed "libqsap_shim.so" "$LIBQSAP_SHIM"
             done
             ;;
-        system_ext/lib64/lib-imscamera.so | system_ext/lib64/lib-imsvideocodec.so)
-            for LIBGUI_SHIM in $(grep -L "libgui_shim.so" "${2}"); do
-                "${PATCHELF}" --add-needed "libgui_shim.so" "${LIBGUI_SHIM}"
-            done
-            ;;
-        vendor/lib/libmot_gpu_mapper.so)
-            for LIBGUI_SHIM in $(grep -L "libgui_shim_vendor.so" "${2}"); do
-                "${PATCHELF}" --add-needed "libgui_shim_vendor.so" "${LIBGUI_SHIM}"
-            done
-        # libutils Shim
-        vendor/lib/soundfx/libspeakerbundle.so | vendor/lib*/sensors.*.so)
+        # libutils-v32
+        vendor/lib/soundfx/libspeakerbundle.so | vendor/lib/sensors.rp.so | vendor/lib64/sensors.rp.so)
             "${PATCHELF}" --replace-needed libutils.so libutils-v32.so "${2}"
-            ;;
-        # Fix missing symbols
-        vendor/bin/pm-service)
-            grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
             ;;
     esac
 }
